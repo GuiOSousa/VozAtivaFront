@@ -38,6 +38,7 @@ const MapComponent = () => {
 					"fillColor": col,
 					"color": col
 				}).addTo(map)
+				mk.bindPopup(`<b>${a["title"]}</b><br>${a["description"]}`)
 			})
 		
 		}
