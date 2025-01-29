@@ -6,7 +6,7 @@ import getAlerts from "../access/alerts";
 
 const MapComponent = () => {
 	useEffect(() => {
-		const map = L.map("map").setView([-23, -46], 13);
+		const map = L.map("map").setView([-23.232896, -45.895818], 13);
 
 	
 		// Adiciona os tiles do OpenStreetMap
@@ -17,8 +17,8 @@ const MapComponent = () => {
 		}).addTo(map);
 
 		
-		function updateAlerts() {
-			const alerts = getData() // getAlerts()
+		async function updateAlerts() {
+			const alerts = await getAlerts()
 		
 			alerts.forEach(a => {
 				let col
@@ -32,7 +32,6 @@ const MapComponent = () => {
 				} else {
 					col = "yellow"
 				}
-					
 		
 				let mk = L.circleMarker([a["latitude"], a["longitude"]], {
 					"fillColor": col,
