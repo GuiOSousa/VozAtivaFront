@@ -1,17 +1,42 @@
 import { useState } from "react";
+import api from "../axios/api";
 
 const MapPopup = ({ lat, lng }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("ambiental");
 
-  const handleSubmit = () => {
-    console.log("Título:", title);
-    console.log("Descrição:", description);
-    console.log("Categoria:", category);
-    console.log("Latitude:", lat.toFixed(6));
-    console.log("Longitude:", lng.toFixed(6));
-  };
+  const handleSubmit = async () => {
+    const data = {
+      title,
+      description,
+      date: "2025-02-05T20:34:50.648Z",
+      userId: "11111111-1111-1111-1111-111111111111",
+      publicAgentId: 1,
+      alertTypeId: 3,
+      latitude: lat,
+      longitude: lng,
+      status: 1
+    };
+  
+    console.log("Enviando dados:", data);
+  
+    try {
+      const response = await api.post('/Alert', data, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log("Resposta da API:", response.data);
+    } catch (error) {
+      if (error.response) {
+        console.error("Erro da API:", error.response.data);  
+        console.error("Status:", error.response.status);      
+      } else {
+        console.error("Erro desconhecido:", error);
+      }
+    }
+  };  
 
   return (
     <div style={{ textAlign: "center" }}>
