@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import getData from "../access/localData";
 import getAlerts from "../access/alerts";
+import { createRoot } from "react-dom/client";
+import MapPopup from "./CreateAlertPopUp";
 
 const MapComponent = () => {
 	useEffect(() => {
@@ -46,15 +47,22 @@ const MapComponent = () => {
 		map.on("zoom", updateAlerts)
 
 		// Evento de clique no mapa
-		const popup = L.popup(); 
+		const popup = L.popup();
+
 		const onMapClick = (e) => {
-			popup
-				.setLatLng(e.latlng)
-				.setContent(
-					"You clicked the map at " + e.latlng.toString()
-				)
-				.openOn(map);
+			const { lat, lng } = e.latlng;
+
+			// Criar um contêiner div para o React renderizar o componente
+			const container = document.createElement("div");
+
+			// Renderizar o componente React no contêiner
+			createRoot(container).render(<MapPopup lat={lat} lng={lng} />);
+
+			// Definir o conteúdo do popup como o contêiner renderizado
+			popup.setLatLng(e.latlng).setContent(container).openOn(map);
 		};
+
+		// Adicionar o evento de clique ao mapa
 		map.on("click", onMapClick);
 
 		// Cleanup para evitar vazamentos de memória
