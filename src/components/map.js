@@ -61,7 +61,7 @@ const MapComponent = () => {
 			const container = document.createElement("div");
 
 			// Renderizar o componente React no contêiner
-			createRoot(container).render(<MapPopup lat={lat} lng={lng} />);
+			createRoot(container).render(<MapPopup lat={lat} lng={lng} popup={popup} />);
 
 			// Definir o conteúdo do popup como o contêiner renderizado
 			popup.setLatLng(e.latlng).setContent(container).openOn(map);

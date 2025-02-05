@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../axios/api";
 
-const MapPopup = ({ lat, lng }) => {
+const MapPopup = ({ lat, lng, popup }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("ambiental");
@@ -28,6 +28,7 @@ const MapPopup = ({ lat, lng }) => {
         }
       });
       console.log("Resposta da API:", response.data);
+      popup.close()
     } catch (error) {
       if (error.response) {
         console.error("Erro da API:", error.response.data);  
