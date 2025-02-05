@@ -4,7 +4,20 @@ import api from "../axios/api";
 const MapPopup = ({ lat, lng, popup }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("ambiental");
+  const [category, setCategory] = useState("ambiental");  
+
+  const getAlertType = () => {
+    if (category === 'ambiental')
+      return 1
+
+    if (category === 'transito')
+      return 2
+
+    if (category === 'seguranca')
+      return 3
+
+    return 4
+  }
 
   const handleSubmit = async () => {
     const data = {
@@ -13,7 +26,7 @@ const MapPopup = ({ lat, lng, popup }) => {
       date: "2025-02-05T20:34:50.648Z",
       userId: "11111111-1111-1111-1111-111111111111",
       publicAgentId: 1,
-      alertTypeId: 3,
+      alertTypeId: getAlertType(),
       latitude: lat,
       longitude: lng,
       status: 1
