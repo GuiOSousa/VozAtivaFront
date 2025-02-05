@@ -47,7 +47,11 @@ const MapComponent = () => {
 		map.on("zoom", updateAlerts)
 
 		// Evento de clique no mapa
-		const popup = L.popup();
+		const popup = L.popup({
+			maxWidth: 250, // Define uma largura máxima para o popup
+			minWidth: 220, // Define uma largura mínima
+			keepInView: true, // Mantém o popup visível dentro da tela
+		});
 
 		const onMapClick = (e) => {
 			const { lat, lng } = e.latlng;

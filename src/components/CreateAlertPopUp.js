@@ -16,10 +16,8 @@ const MapPopup = ({ lat, lng }) => {
   return (
     <div style={{ textAlign: "center" }}>
       <p>
-        <strong>Você clicou em:</strong>
+        <strong>Dados do Alerta:</strong>
       </p>
-      <p>Lat: {lat.toFixed(6)}</p>
-      <p>Lng: {lng.toFixed(6)}</p>
 
       <input
         type="text"
