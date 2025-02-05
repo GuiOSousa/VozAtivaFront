@@ -43,6 +43,7 @@ const MapComponent = () => {
 		
 		}
 
+		map.on("popupclose", updateAlerts)
 		map.on("moveend", updateAlerts)
 		map.on("zoom", updateAlerts)
 

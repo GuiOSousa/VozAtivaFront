@@ -1,10 +1,8 @@
-import axios from "axios";
+import api from "../axios/api";
 
 export default async function getAlerts  () {
-  const baseUrl = `https://localhost:7273`
-
   try {
-    const response = await axios.get(`${baseUrl}/Alert`);
+    const response = await api.get('/Alert');
     return response.data
   } catch (error) {
     throw new Error("Falha na comunicação com a API VozAtiva")

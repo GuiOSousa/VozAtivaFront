@@ -74,6 +74,7 @@ const MapPopup = ({ lat, lng }) => {
           borderRadius: "5px",
           cursor: "pointer",
           transition: "background 0.3s",
+          marginTop: "8px"
         }}
       >
         Enviar
