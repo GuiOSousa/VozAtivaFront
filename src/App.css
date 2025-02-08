@@ -78,7 +78,7 @@
   justify-content: space-around;
   align-items: center;
   z-index: 1000;
-  background-color: #BBFFEE;
+  background-color: var(--primary-color);
 }
 
 .nav-item {
@@ -92,14 +92,14 @@
 }
 
 .nav-item:hover {
-  background-color: #f0f0f0; /* Altere a cor de fundo ao passar o mouse */
+  background-color: #0b4b31; /* Altere a cor de fundo ao passar o mouse */
   text-decoration: underline; /* Adicione sublinhado ao texto */
 }
 
 .nav-item svg {
   max-height: 80%;
   width: auto;
-  color: var(--primary-color);
+  color: #f0f0f0;
 }
 
 .button {
@@ -123,6 +123,18 @@
   cursor: pointer;
   transition: background 0.3s;
   margin-top: 10px;
+}
+
+
+.button:hover,
+.profile-edit_button:hover,
+.create_alert-button_div-button:hover
+{
+  background-color: #0b4b31;
+}
+
+.create_alert-button_div-button_gray:hover {
+  background-color: #2b2b2b;
 }
 
 .input {
@@ -258,6 +270,23 @@
   width: 50%;
   justify-content: space-around;
   align-items: center;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.profile-edit_icon {
+  cursor: pointer;
+  color: var(--primary-color);
+  transition: color 0.3s;
+}
+
+.profile-edit_icon:hover {
+  color: #0b4b31;
 }
 
 .user-alerts {

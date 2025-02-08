@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { NavigationBar } from "../components/navBar";
+import { FaEdit } from "react-icons/fa"; // Importe o ícone de edição
 import api from "../axios/api"; // Importe a API para buscar os alertas
 
 export const ProfilePage = () => {
@@ -29,7 +30,6 @@ export const ProfilePage = () => {
       }
     };
     
-    
     // Adiciona um alerta padrão como exemplo
     setAlerts(() => [
       {
@@ -52,7 +52,6 @@ export const ProfilePage = () => {
       },
     ]);
     
-    
     fetchAlerts();
   }, [user.id]);
   
@@ -63,7 +62,10 @@ export const ProfilePage = () => {
   return (
     <div className="profile">
       <NavigationBar />
-      <h2>Perfil do Usuário</h2>
+      <div className="profile-header">
+        <h2>Perfil do Usuário</h2>
+        <FaEdit onClick={() => navigate("/edit-profile")} className="profile-edit_icon" />
+      </div>
       <div className="profile-info">
         <p><strong>Nome:</strong> {user.name}</p>
         <p><strong>E-mail:</strong> {user.email}</p>
@@ -72,10 +74,6 @@ export const ProfilePage = () => {
         <p><strong>Telefone:</strong> {user.phone}</p>
         <p><strong>Tipo de Usuário:</strong> {user.userType}</p>
       </div> 
-
-      <button onClick={() => navigate("/edit-profile")} className="profile-edit_button">
-        Editar Perfil
-      </button>
 
       <h3>Meus Alertas</h3>
       <div className="user-alerts">
