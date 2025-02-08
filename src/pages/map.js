@@ -3,7 +3,9 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import getAlerts from "../access/alerts";
 import { createRoot } from "react-dom/client";
-import MapPopup from "./CreateAlertPopUp";
+import MapPopup from "../components/CreateAlertPopUp";
+import api from "../axios/api";
+import getData from "../access/localData";
 
 const MapComponent = () => {
 	useEffect(() => {
@@ -19,8 +21,10 @@ const MapComponent = () => {
 
 		
 		async function updateAlerts() {
-			const alerts = await getAlerts()
-		
+			const alerts = await getData() // FUNÇÃO LOCAL
+			
+			//console.log(await api.get('/Alert'))
+			
 			alerts.forEach(a => {
 				let col
 				
@@ -81,7 +85,7 @@ const MapComponent = () => {
 		<div
 			id="map"
 			style={{
-				height: "800px",
+				height: "100vh",
 				width: "100%",
 			}}
 		></div>
