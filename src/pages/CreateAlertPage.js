@@ -57,51 +57,51 @@ const AlertScreen = ({ onAlertCreated }) => {
 
   return (
     <div>
-    <div className="create_alert">
-      <h2>Novo Alerta</h2>
-      <div className="create_alert-lat_long_div">
-      <input
-        type="text"
-        placeholder="Latitude"
-        value={title}
-        className="input"
-      />
-      <input
-        type="text"
-        placeholder="Longitude"
-        value={title}
-        className="input"
-      />
+      <NavigationBar />
+      <div className="create_alert">
+        <h2>Novo Alerta</h2>
+        <div className="create_alert-lat_long_div">
+          <input
+            type="text"
+            placeholder="Latitude"
+            value={title}
+            className="input"
+          />
+          <input
+            type="text"
+            placeholder="Longitude"
+            value={title}
+            className="input"
+          />
+        </div>
+
+        <input
+          type="text"
+          placeholder="Título"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="input"
+        />
+
+        <textarea
+          placeholder="Descrição"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="input"
+        />
+
+        <select value={category} onChange={(e) => setCategory(e.target.value)} className="select-input">
+          <option value="ambiental">Ambiental</option>
+          <option value="transito">Trânsito</option>
+          <option value="seguranca">Segurança</option>
+          <option value="outros">Outros</option>
+        </select>
+        <div className="create_alert-button_div">
+          <button onClick={handleSubmit} className="create_alert-button_div-button">Enviar</button>
+          <button onClick={() => navigate(-1)} className="create_alert-button_div-button_gray">Cancelar</button>
+        </div>
+        
       </div>
-
-      <input
-        type="text"
-        placeholder="Título"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="input"
-      />
-
-      <textarea
-        placeholder="Descrição"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        className="input"
-      />
-
-      <select value={category} onChange={(e) => setCategory(e.target.value)} className="select-input">
-        <option value="ambiental">Ambiental</option>
-        <option value="transito">Trânsito</option>
-        <option value="seguranca">Segurança</option>
-        <option value="outros">Outros</option>
-      </select>
-      <div className="create_alert-button_div">
-        <button onClick={handleSubmit} className="create_alert-button_div-button">Enviar</button>
-        <button onClick={() => navigate(-1)} className="create_alert-button_div-button_gray">Cancelar</button>
-      </div>
-      
-    </div>
-    <NavigationBar/>
     </div>
   );
 };

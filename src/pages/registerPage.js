@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../axios/api";
-
+import { NavigationBar } from "../components/navBar";
 
 const RegisterScreen = () => {
   const navigate = useNavigate();
@@ -50,6 +50,7 @@ const RegisterScreen = () => {
 
   return (
     <div className="register">
+      <NavigationBar />
       <h2>Cadastro</h2>
       <form onSubmit={handleRegister} className="login-form">
         <input
