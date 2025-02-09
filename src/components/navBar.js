@@ -4,6 +4,7 @@ import { FaHome, FaUser, FaList } from "react-icons/fa";
 import { IoWarning } from "react-icons/io5";
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
 import { isLoggedIn } from "../pages/loginScreen"; // Importe a flag global
+import "./styles/NavBar.css";
 
 export const NavigationBar = () => {
   const navigate = useNavigate();

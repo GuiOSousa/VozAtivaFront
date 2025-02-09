@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReportView from '../components/ReportView';
 import ReportStatusUpdate from '../components/ReportStatusUpdate';
 import api from "../axios/api"; // Sua instância do axios
+import './styles/ReportListPage.css';
 
 const initialReports = [
     { id: 1, title: "Denúncia 1", description: "Descrição 1", status: "Aberto" },

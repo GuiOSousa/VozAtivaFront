@@ -1,0 +1,18 @@
+.report-view {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.report-view h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.report-view p {
+  margin: 5px 0;
+  font-size: 1rem;
+}

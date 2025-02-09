@@ -1,6 +1,6 @@
 import { useState } from "react";
 import api from "../axios/api";
-import "../styles/CreateAlertPopUp.css";
+import "./styles/CreateAlertPopUp.css";
 
 const MapPopup = ({ lat, lng, popup }) => {
   const [title, setTitle] = useState("");
