@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { createRoot } from "react-dom/client";
-import { FaHome, FaUser } from "react-icons/fa";
+import { FaHome, FaUser, FaList } from "react-icons/fa";
 import { IoWarning } from "react-icons/io5";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
@@ -21,6 +21,9 @@ export const NavigationBar = () => {
           </Link>
           <Link to="/profile" className="nav-item">
             <FaUser size={24} />
+          </Link>
+          <Link to="/reports" className="nav-item"> 
+            <FaList size={24} />
           </Link>
         </nav>
     );
