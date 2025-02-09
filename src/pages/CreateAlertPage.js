@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import api from "../axios/api";
 import { NavigationBar } from "../components/navBar";
 
-const AlertScreen = () => {
+const AlertScreen = ({ onAlertCreated }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { lat, lng } = location.state || { lat: null, lng: null };
@@ -41,6 +41,9 @@ const AlertScreen = () => {
         },
       });
       console.log("Resposta da API:", response.data);
+      if (onAlertCreated) {
+        onAlertCreated(); // Chama a callback para atualizar
+      }
       navigate(-1); // Volta para a tela anterior
     } catch (error) {
       if (error.response) {
