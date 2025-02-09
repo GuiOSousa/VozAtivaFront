@@ -9,9 +9,11 @@ import { AddButton } from "../components/createAlertButton";
 export const HomePage = () => {
     return (
       <div className="app-container">
+        <NavigationBar />
         <MapComponent />
-        <AddButton/>
-        <NavigationBar/>
+        {/* <AddButton/> */}
       </div>
     );
   };
+
+export default HomePage;

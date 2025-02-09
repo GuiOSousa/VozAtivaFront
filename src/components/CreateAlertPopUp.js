@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../axios/api";
+import "../styles/CreateAlertPopUp.css";
 
 const MapPopup = ({ lat, lng, popup }) => {
   const [title, setTitle] = useState("");
@@ -53,7 +54,7 @@ const MapPopup = ({ lat, lng, popup }) => {
   };  
 
   return (
-    <div style={{ textAlign: "center" }}>
+    <div className="popup-container">
       <p>
         <strong>Dados do Alerta:</strong>
       </p>
@@ -63,39 +64,17 @@ const MapPopup = ({ lat, lng, popup }) => {
         placeholder="Título"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        style={{
-          width: "90%",
-          padding: "8px",
-          margin: "5px 0",
-          border: "1px solid #ccc",
-          borderRadius: "5px",
-        }}
       />
 
       <textarea
         placeholder="Descrição"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
-        style={{
-          width: "90%",
-          height: "60px",
-          padding: "8px",
-          margin: "5px 0",
-          border: "1px solid #ccc",
-          borderRadius: "5px",
-        }}
       ></textarea>
 
       <select
         value={category}
         onChange={(e) => setCategory(e.target.value)}
-        style={{
-          width: "90%",
-          padding: "8px",
-          margin: "5px 0",
-          border: "1px solid #ccc",
-          borderRadius: "5px",
-        }}
       >
         <option value="ambiental">Ambiental</option>
         <option value="transito">Trânsito</option>
@@ -103,19 +82,7 @@ const MapPopup = ({ lat, lng, popup }) => {
         <option value="outros">Outros</option>
       </select>
 
-      <button
-        onClick={handleSubmit}
-        style={{
-          backgroundColor: "#007bff",
-          color: "white",
-          border: "none",
-          padding: "8px 12px",
-          borderRadius: "5px",
-          cursor: "pointer",
-          transition: "background 0.3s",
-          marginTop: "8px"
-        }}
-      >
+      <button onClick={handleSubmit}>
         Enviar
       </button>
     </div>
