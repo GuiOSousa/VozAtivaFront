@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { NavigationBar } from "../components/navBar";
+import "../pages/styles/LoginScreen.css";
 
 // Flag global para indicar se o usuário está logado
 export let isLoggedIn = false;
@@ -26,7 +26,6 @@ const LoginScreen = () => {
 
   return (
     <div>
-      <NavigationBar />
       <div className="login-container">
         <h2>Login</h2>
         <form onSubmit={handleLogin} className="login-form">

@@ -4,15 +4,16 @@ import { FaHome, FaUser, FaList } from "react-icons/fa";
 import { IoWarning } from "react-icons/io5";
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
 import { isLoggedIn } from "../pages/loginScreen"; // Importe a flag global
+import "./styles/NavBar.css";
 
 export const NavigationBar = () => {
   const navigate = useNavigate();
 
-  const handleProfileClick = () => {
+  const handleProfileClick = (page) => {
     if (!isLoggedIn) {
       navigate("/login");
     } else {
-      navigate("/profile");
+      navigate(page);
     }
   };
 
@@ -21,13 +22,13 @@ export const NavigationBar = () => {
       <Link to="/" className="nav-item">
         <FaHome size={24} />
       </Link>
-      <Link to="/alert" className="nav-item">
+      {/* <Link to="/alert" className="nav-item">
         <IoWarning size={24} />
-      </Link>
-      <Link to="/reports" className="nav-item"> 
+      </Link> */}
+      <div className="nav-item" onClick={() => handleProfileClick("/reports")}>
         <FaList size={24} />
-      </Link>
-      <div className="nav-item" onClick={handleProfileClick}>
+      </div>
+      <div className="nav-item" onClick={() => handleProfileClick("/profile")}>
         <FaUser size={24} />
       </div>
     </nav>

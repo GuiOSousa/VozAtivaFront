@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ReportView from '../components/ReportView';
 import ReportStatusUpdate from '../components/ReportStatusUpdate';
 import api from "../axios/api"; // Sua instância do axios
+import './styles/ReportListPage.css';
 
 const initialReports = [
     { id: 1, title: "Denúncia 1", description: "Descrição 1", status: "Aberto" },
@@ -38,7 +39,7 @@ const ReportListPage = () => {
 
   return (
     <div className="report-list-page">
-      <h2>Lista de Denúncias</h2>
+      <h2>Suas Denuncias</h2>
       {reports.map(report => (
         <div key={report.id} className="report-item">
           <ReportView report={report} />

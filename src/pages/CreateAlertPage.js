@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import api from "../axios/api";
-import { NavigationBar } from "../components/navBar";
+import "../pages/styles/CreateAlertPage.css";
 
 const AlertScreen = ({ onAlertCreated }) => {
   const navigate = useNavigate();
@@ -57,7 +57,6 @@ const AlertScreen = ({ onAlertCreated }) => {
 
   return (
     <div>
-      <NavigationBar />
       <div className="create_alert">
         <h2>Novo Alerta</h2>
         <div className="create_alert-lat_long_div">

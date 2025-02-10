@@ -3,53 +3,32 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import getAlerts from "../access/alerts";
 import { createRoot } from "react-dom/client";
+import { BrowserRouter as Router } from "react-router-dom"; // Importe o Router
 import MapPopup from "../components/CreateAlertPopUp";
 import api from "../axios/api";
 import getData from "../access/localData";
+import { isLoggedIn } from "../pages/loginScreen"; // Importe a flag global
 
-const MapComponent = () => {
-	useEffect(() => {
-		const map = L.map("map").setView([-23.232896, -45.895818], 13);
+class MapComponent extends React.Component {
+	componentDidMount() {
+		if (this.map) {
+			this.map.remove();
+		}
 
-	
+		this.map = L.map("map").setView([-23.232896, -45.895818], 13);
+
 		// Adiciona os tiles do OpenStreetMap
 		L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 			maxZoom: 19,
 			attribution:
 				'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-		}).addTo(map);
+		}).addTo(this.map);
 
-		
-		async function updateAlerts() {
-			const alerts = await getData() // FUNÇÃO LOCAL
-			
-			//console.log(await api.get('/Alert'))
-			
-			alerts.forEach(a => {
-				let col
-				
-				if (a["alertTypeId"] === 1) {
-					col = "green"
-				} else if (a["alertTypeId"] === 2) {
-					col = "blue"
-				} else if (a["alertTypeId"] === 3) {
-					col = "red"
-				} else {
-					col = "yellow"
-				}
-		
-				let mk = L.circleMarker([a["latitude"], a["longitude"]], {
-					"fillColor": col,
-					"color": col
-				}).addTo(map)
-				mk.bindPopup(`<b>${a["title"]}</b><br>${a["description"]}`)
-			})
-		
-		}
+		this.updateAlerts = this.updateAlerts.bind(this);
 
-		map.on("popupclose", updateAlerts)
-		map.on("moveend", updateAlerts)
-		map.on("zoom", updateAlerts)
+		this.map.on("popupclose", this.updateAlerts);
+		this.map.on("moveend", this.updateAlerts);
+		this.map.on("zoom", this.updateAlerts);
 
 		// Evento de clique no mapa
 		const popup = L.popup({
@@ -59,37 +38,81 @@ const MapComponent = () => {
 		});
 
 		const onMapClick = (e) => {
+			if (!isLoggedIn) {
+				return;
+			}
+
 			const { lat, lng } = e.latlng;
 
 			// Criar um contêiner div para o React renderizar o componente
 			const container = document.createElement("div");
 
-			// Renderizar o componente React no contêiner
-			createRoot(container).render(<MapPopup lat={lat} lng={lng} popup={popup} />);
+			// Renderizar o componente React no contêiner dentro de um Router
+			createRoot(container).render(
+				<Router>
+					<MapPopup lat={lat} lng={lng} popup={popup} />
+				</Router>
+			);
 
 			// Definir o conteúdo do popup como o contêiner renderizado
-			popup.setLatLng(e.latlng).setContent(container).openOn(map);
+			popup.setLatLng(e.latlng).setContent(container).openOn(this.map);
 		};
 
 		// Adicionar o evento de clique ao mapa
-		map.on("click", onMapClick);
+		this.map.on("click", onMapClick);
 
 		// Cleanup para evitar vazamentos de memória
 		return () => {
-			map.off("click", onMapClick);
-			map.remove();
+			if (this.map) {
+				this.map.off();
+				this.map.remove();
+			}
 		};
-	}, []);
+	}
 
-	return (
-		<div
-			id="map"
-			style={{
-				height: "100vh",
-				width: "100%",
-			}}
-		></div>
-	);
-};
+	async updateAlerts() {
+		const alerts = await getData(); // FUNÇÃO LOCAL
+
+		//console.log(await api.get('/Alert'))
+
+		alerts.forEach((a) => {
+			let col;
+
+			if (a["alertTypeId"] === 1) {
+				col = "green";
+			} else if (a["alertTypeId"] === 2) {
+				col = "blue";
+			} else if (a["alertTypeId"] === 3) {
+				col = "red";
+			} else {
+				col = "yellow";
+			}
+
+			let mk = L.circleMarker([a["latitude"], a["longitude"]], {
+				fillColor: col,
+				color: col,
+			}).addTo(this.map);
+			mk.bindPopup(`<b>${a["title"]}</b><br>${a["description"]}`);
+		});
+
+		const pane = this.getPane();
+	}
+
+	getPane() {
+		// Implementação do método getPane
+	}
+
+	render() {
+		return (
+			<div
+				id="map"
+				style={{
+					height: "100vh",
+					width: "100%",
+				}}
+			></div>
+		);
+	}
+}
 
 export default MapComponent;

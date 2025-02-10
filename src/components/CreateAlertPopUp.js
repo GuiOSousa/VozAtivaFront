@@ -1,26 +1,33 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Importar useNavigate para redirecionamento
 import api from "../axios/api";
-import "../styles/CreateAlertPopUp.css";
+import { isLoggedIn } from "../pages/loginScreen"; // Importe a flag global
+import "./styles/CreateAlertPopUp.css";
 
 const MapPopup = ({ lat, lng, popup }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("ambiental");  
+  const [category, setCategory] = useState("ambiental");
+  const navigate = useNavigate(); // Hook para redirecionamento
 
   const getAlertType = () => {
     if (category === 'ambiental')
-      return 1
+      return 1;
 
     if (category === 'transito')
-      return 2
+      return 2;
 
     if (category === 'seguranca')
-      return 3
+      return 3;
 
-    return 4
-  }
+    return 4;
+  };
 
   const handleSubmit = async () => {
+    if (!isLoggedIn) {
+      return null;
+    }
+
     const data = {
       title,
       description,
@@ -42,7 +49,7 @@ const MapPopup = ({ lat, lng, popup }) => {
         }
       });
       console.log("Resposta da API:", response.data);
-      popup.close()
+      popup.close();
     } catch (error) {
       if (error.response) {
         console.error("Erro da API:", error.response.data);  
@@ -59,32 +66,40 @@ const MapPopup = ({ lat, lng, popup }) => {
         <strong>Dados do Alerta:</strong>
       </p>
 
-      <input
-        type="text"
-        placeholder="Título"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+      {!isLoggedIn ? (
+        <button onClick={() => navigate('/login')}>
+          Faça login para enviar um alerta
+        </button>
+      ) : (
+        <>
+          <input
+            type="text"
+            placeholder="Título"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
 
-      <textarea
-        placeholder="Descrição"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      ></textarea>
+          <textarea
+            placeholder="Descrição"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          ></textarea>
 
-      <select
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-      >
-        <option value="ambiental">Ambiental</option>
-        <option value="transito">Trânsito</option>
-        <option value="seguranca">Segurança</option>
-        <option value="outros">Outros</option>
-      </select>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="ambiental">Ambiental</option>
+            <option value="transito">Trânsito</option>
+            <option value="seguranca">Segurança</option>
+            <option value="outros">Outros</option>
+          </select>
 
-      <button onClick={handleSubmit}>
-        Enviar
-      </button>
+          <button onClick={handleSubmit}>
+            Enviar
+          </button>
+        </>
+      )}
     </div>
   );
 };

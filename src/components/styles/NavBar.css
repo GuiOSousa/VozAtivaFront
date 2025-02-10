@@ -1,0 +1,32 @@
+.bottom-nav {
+  position: absolute;
+  bottom: 0;
+  height: 5vh;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+  background-color: var(--primary-color);
+}
+
+.nav-item {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.nav-item:hover {
+  background-color: #0b4b31;
+  text-decoration: underline;
+}
+
+.nav-item svg {
+  max-height: 80%;
+  width: auto;
+  color: #f0f0f0;
+}
