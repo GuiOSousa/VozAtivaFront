@@ -24,9 +24,9 @@ const MapPopup = ({ lat, lng, popup }) => {
   };
 
   const handleSubmit = async () => {
-    if (!isLoggedIn) {
-      return null;
-    }
+    //if (!isLoggedIn) {
+    //  return null;
+    //}
 
     const data = {
       title,

@@ -71,7 +71,7 @@ class MapComponent extends React.Component {
 	}
 
 	async updateAlerts() {
-		const alerts = await getData(); // FUNÇÃO LOCAL
+		const alerts = await getAlerts(); // FUNÇÃO LOCAL
 
 		//console.log(await api.get('/Alert'))
 
