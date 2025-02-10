@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../pages/styles/LoginScreen.css";
+import api from "../axios/api";
 
 // Flag global para indicar se o usuário está logado
 export let isLoggedIn = false;
@@ -10,18 +11,30 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Email:", email, "Senha:", password);
+    const logData = {
+      email,
+      password
+    }
     
-    // Aqui você pode adicionar a lógica de autenticação, como uma requisição à API.
-    alert("Login realizado! (Simulação)");
+    try {
+      const login = await api.post("/api/Auth/login", logData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-    // Define a flag global como true após o login
-    isLoggedIn = true;
+      console.log(login)
 
-    // Redireciona para a tela inicial após o login
-    navigate("/");
+      if (login.status === 200) {
+        isLoggedIn = true;
+        navigate("/");
+      }
+    } catch(error) {
+      alert("E-mail ou senha incorreto(s)")
+    }
+
   };
 
   return (

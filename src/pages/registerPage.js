@@ -11,6 +11,40 @@ const RegisterScreen = () => {
   const [birthdate, setBirthdate] = useState("");
   const [phone, setPhone] = useState("");
   const [userType, setUserType] = useState("Citizen");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState([]);
+
+  const validatePassword = (password) => {
+    const errors = [];
+  
+    if (password.length < 6) {
+      errors.push("A senha deve ter pelo menos 6 caracteres.");
+    }
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      errors.push("A senha deve conter pelo menos um caractere especial.");
+    }
+    if (!/\d/.test(password)) {
+      errors.push("A senha deve conter pelo menos um número.");
+    }
+    if (!/[a-z]/.test(password)) {
+      errors.push("A senha deve conter pelo menos uma letra minúscula.");
+    }
+    if (!/[A-Z]/.test(password)) {
+      errors.push("A senha deve conter pelo menos uma letra maiúscula.");
+    }
+    if (new Set(password).size < 2) {
+      errors.push("A senha deve conter pelo menos 2 caracteres diferentes.");
+    }
+  
+    return errors;
+  };
+
+  const handlePasswordChange = (e) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    setErrors(validatePassword(newPassword));
+  };
+
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -21,8 +55,22 @@ const RegisterScreen = () => {
       federalCodeClient,
       birthdate,
       phone,
-      userType,
+      userType: 1,
     };
+
+    const regData = {
+      username: "user",
+      email,
+      password
+    }
+
+    console.log(regData)
+    console.log(data)
+
+    if (errors.length > 0){
+      alert("Senha inválida!")
+      return
+    }
 
     console.log("Enviando dados:", data);
 
@@ -32,10 +80,27 @@ const RegisterScreen = () => {
           "Content-Type": "application/json",
         },
       });
+      
 
-      console.log("Resposta da API:", response.data);
-      alert("Cadastro realizado com sucesso!");
-      navigate("/login"); // Redireciona para login após cadastro
+      if (response.status === 200) {
+        const reg = await api.post("/api/Auth/register", regData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (reg.status !== 200) {
+          alert("Erro na criação do Registro")
+          return
+        }
+  
+        console.log("Resposta da API:", response.data);
+        alert("Cadastro realizado com sucesso!");
+        navigate("/login");
+      } else {
+        throw Error("Erro na criação do Registro.")
+      }
+    
     } catch (error) {
       if (error.response) {
         console.error("Erro da API:", error.response.data);
@@ -66,6 +131,15 @@ const RegisterScreen = () => {
           placeholder="E-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
+          className="input"
+        />
+
+        <input
+          type="text"
+          placeholder="Senha"
+          value={password}
+          onChange={handlePasswordChange}
           required
           className="input"
         />
