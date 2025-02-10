@@ -39,7 +39,7 @@ const ReportListPage = () => {
 
   return (
     <div className="report-list-page">
-      <h2>Lista de Denúncias</h2>
+      <h2>Suas Denuncias</h2>
       {reports.map(report => (
         <div key={report.id} className="report-item">
           <ReportView report={report} />
