@@ -59,7 +59,7 @@ const RegisterScreen = () => {
     };
 
     const regData = {
-      username: "user",
+      username: email,
       email,
       password
     }

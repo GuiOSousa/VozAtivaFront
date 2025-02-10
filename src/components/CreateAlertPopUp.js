@@ -31,8 +31,8 @@ const MapPopup = ({ lat, lng, popup }) => {
     const data = {
       title,
       description,
-      date: "2025-02-05T20:34:50.648Z",
-      userId: "11111111-1111-1111-1111-111111111111",
+      date: new Date().toISOString(),
+      userId: "c2a4c039-5d29-4e53-a86c-4e62d21a37c1",
       publicAgentId: 1,
       alertTypeId: getAlertType(),
       latitude: lat,
