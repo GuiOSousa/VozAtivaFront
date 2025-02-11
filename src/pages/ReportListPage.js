@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ReportView from "../components/ReportView";
 import ReportStatusUpdate from "../components/ReportStatusUpdate";
 import api from "../axios/api";
 import "./styles/ReportListPage.css";
@@ -34,29 +33,24 @@ const ReportListPage = () => {
     }
   };
 
-  const updateStatus = async (id, newStatusValue) => {
+  const updateStatus = async (alertData, newStatusValue) => {
     try {
-      // Mapear o novo status para a string correspondente, se necessário
-      const statusMap = {
-        1: 'Aberto',
-        3: 'Finalizado',
-      };
+      console.log('Atualizando status para:', newStatusValue);
+      console.log(typeof(newStatusValue))
+      
+      const id = parseInt(newStatusValue)
+      console.log(typeof(id))
+
+      console.log(alertData.id)
+
+      alertData.status = id
   
-      const newStatus = statusMap[newStatusValue] || 'Aberto';
   
-      // Opcionalmente, exibir o status que será enviado
-      console.log('Atualizando status para:', newStatus);
-  
-      // Fazer a requisição PUT para '/Alert/{id}' com o novo status no corpo
-      const response = await api.put(`/Alert`, { status: newStatus });
+      const response = await api.put(`/Alert`, alertData);
   
       if (response.status === 200) {
-        // Atualize o alerta específico na lista de alertas
-        setAlerts((prevAlerts) =>
-          prevAlerts.map((alert) =>
-            alert.id === id ? { ...alert, status: newStatus } : alert
-          )
-        );
+          getAlerts(user.id)
+          alert("Alerta atualizado com sucesso!")
       } else {
         console.error(`Erro ao atualizar status: ${response.statusText}`);
       }
@@ -90,14 +84,14 @@ const ReportListPage = () => {
       ) : alerts && alerts.length > 0 ? (
         alerts.map((report) => (
           <div key={report.id} className="report-item">
-            <h3>{report.title}</h3>
+            <h2>{report.title}</h2>
+            <p>Id: {report.id}</p>
             <p>Descrição: {report.description}</p>
             <p>Data: {new Date(report.date).toLocaleString()}</p>
-            <p>Status: {report.status}</p> {/* Exibe 1 ou 2 diretamente */}
-            <p>Id: {report.id}</p>
+            <p>Status:<strong> {report.status === 1 ? "Aberto" : "Finalizado"}</strong></p>
             <ReportStatusUpdate
               currentStatus={report.status}
-              onUpdateStatus={(newStatus) => updateStatus(report.id, newStatus)}
+              onUpdateStatus={(newStatus) => updateStatus(report, newStatus)}
             />
           </div>
         ))
