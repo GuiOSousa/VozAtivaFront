@@ -27,7 +27,6 @@ export const ProfilePage = () => {
     <div className="profile">
       <div className="profile-header">
         <h2>Perfil do Usuário</h2>
-        <FaEdit onClick={() => navigate("/edit-profile")} className="profile-edit_icon" />
       </div>
       <div className="profile-info">
         {user ? (
@@ -35,7 +34,7 @@ export const ProfilePage = () => {
             <p><strong>Nome:</strong> {user.name}</p>
             <p><strong>E-mail:</strong> {user.email}</p>
             <p><strong>CPF/CNPJ:</strong> {user.federalCodeClient}</p>
-            <p><strong>Data de Nascimento:</strong> {user.birthdate}</p>
+            <p><strong>Data de Nascimento:</strong> {new Date(user.birthdate).toLocaleDateString()}</p>
             <p><strong>Telefone:</strong> {user.phone}</p>
             <p><strong>Tipo de Usuário:</strong> {user.userType}</p>
           </>
