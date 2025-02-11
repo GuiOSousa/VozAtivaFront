@@ -1,14 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // Importar useNavigate para redirecionamento
 import api from "../axios/api";
 import { isLoggedIn } from "../pages/loginScreen"; // Importe a flag global
 import "./styles/CreateAlertPopUp.css";
+import { userEmail } from "../pages/loginScreen";
 
 const MapPopup = ({ lat, lng, popup }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("ambiental");
   const navigate = useNavigate(); // Hook para redirecionamento
+  const [user, setUser] = useState(null);
+
+  const getUser = async () => {
+    const path = `/User/email/${userEmail}`;
+    try {
+      const response = await api.get(path);
+      setUser(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar usuário:", error);
+    }
+  };
 
   const getAlertType = () => {
     if (category === 'ambiental')
@@ -32,7 +44,7 @@ const MapPopup = ({ lat, lng, popup }) => {
       title,
       description,
       date: new Date().toISOString(),
-      userId: "c2a4c039-5d29-4e53-a86c-4e62d21a37c1",
+      userId: user.id,
       publicAgentId: 1,
       alertTypeId: getAlertType(),
       latitude: lat,
@@ -59,6 +71,10 @@ const MapPopup = ({ lat, lng, popup }) => {
       }
     }
   };  
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <div className="popup-container">

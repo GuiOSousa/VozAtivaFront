@@ -1,54 +1,75 @@
-import React, { useState, useEffect } from 'react';
-import ReportView from '../components/ReportView';
-import ReportStatusUpdate from '../components/ReportStatusUpdate';
+import React, { useState, useEffect } from "react";
+import ReportView from "../components/ReportView";
+import ReportStatusUpdate from "../components/ReportStatusUpdate";
 import api from "../axios/api"; // Sua instância do axios
-import './styles/ReportListPage.css';
+import "./styles/ReportListPage.css";
+import { userEmail } from "./loginScreen";
+import { useNavigate } from "react-router-dom";
 
-const initialReports = [
-    { id: 1, title: "Denúncia 1", description: "Descrição 1", status: "Aberto" },
-    { id: 2, title: "Denúncia 2", description: "Descrição 2", status: "Em progresso" },
-    { id: 3, title: "Denúncia 3", description: "Descrição 3", status: "Concluído" },
-  ];
 const ReportListPage = () => {
-  const initialReports = [
-    { id: 1, title: "Denúncia Exemplo 1", description: "Descrição exemplo 1", status: "Aberto" },
-    { id: 2, title: "Denúncia Exemplo 2", description: "Descrição exemplo 2", status: "Em progresso" },
-    { id: 3, title: "Denúncia Exemplo 3", description: "Descrição exemplo 3", status: "Concluído" },
-  ];
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [alerts, setAlerts] = useState(null);
+  const [loading, setLoading] = useState(true); // Estado para indicar carregamento
+  const path = `/User/email/${userEmail}`;
 
-  const [reports, setReports] = useState(initialReports);
-  useEffect(() => {
-    const fetchReports = async () => {
-      try {
-        const response = await api.get('/reports'); // Endpoint que retorna as denúncias
-        setReports(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar denúncias:", error);
-      }
-    };
-
-    fetchReports();
-  }, []); // Executa uma vez ao montar
-
-  // Define a função updateStatus
-  const updateStatus = (id, newStatus) => {
-    setReports(reports.map(report =>
-      report.id === id ? { ...report, status: newStatus } : report
-    ));
+  const getUser = async () => {
+    try {
+      const response = await api.get(path);
+      setUser(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar usuário:", error);
+    }
   };
+
+  const getAlerts = async (id) => {
+    try {
+      const response = await api.get("/Alert");
+      const filteredAlerts = response.data.filter((a) => a.userId === id);
+      setAlerts(filteredAlerts);
+    } catch (error) {
+      console.error("Erro ao buscar alertas:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateStatus = async (id, status) => {
+    const path = `/Alert/${id}`
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await getUser();
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      getAlerts(user.id);
+    }
+  }, [user]); // Dispara quando `user` for atualizado
 
   return (
     <div className="report-list-page">
-      <h2>Suas Denuncias</h2>
-      {reports.map(report => (
-        <div key={report.id} className="report-item">
-          <ReportView report={report} />
-          <ReportStatusUpdate
-            currentStatus={report.status}
-            onUpdateStatus={(newStatus) => updateStatus(report.id, newStatus)}
-          />
-        </div>
-      ))}
+      <h2>Suas Denúncias</h2>
+
+      {loading ? (
+        <p>Carregando...</p>
+      ) : alerts && alerts.length > 0 ? (
+        alerts.map((report) => (
+          <div key={report.id} className="report-item">
+            <ReportView report={report} />
+            <ReportStatusUpdate
+              currentStatus={report.status}
+              onUpdateStatus={(newStatus) => updateStatus(report.id, newStatus)}
+            />
+          </div>
+        ))
+      ) : (
+        <p>Nenhuma denúncia encontrada.</p>
+      )}
     </div>
   );
 };
