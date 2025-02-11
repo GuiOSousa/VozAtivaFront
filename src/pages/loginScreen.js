@@ -6,6 +6,7 @@ import api from "../axios/api";
 // Flag global para indicar se o usuário está logado
 export let isLoggedIn = false;
 
+
 const LoginScreen = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
