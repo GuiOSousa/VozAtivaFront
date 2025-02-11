@@ -16,8 +16,8 @@ const ReportStatusUpdate = ({ currentStatus, onUpdateStatus }) => {
     <div className="report-status-update">
       <h3>Alterar Status da Denúncia</h3>
       <select value={newStatus} onChange={handleStatusChange}>
-        <option value="1">Aberto</option>
-        <option value="2">Finalizado</option>
+        <option value={1}>Aberto</option>
+        <option value={2}>Finalizado</option>
       </select>
       <button onClick={handleSubmit}>Atualizar Status</button>
     </div>

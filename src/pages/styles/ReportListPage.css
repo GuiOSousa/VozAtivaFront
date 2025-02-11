@@ -1,7 +1,6 @@
 .report-list-page {
     display: flex;
     flex-direction: column;
-    padding: 5%;
     height: calc(100vh - 5vh); 
     overflow-y: auto; 
     align-items: center;
@@ -44,13 +43,5 @@
   
   .report-item button:hover {
     background-color: #005533;
-  }
-
-
-  .report-list-page {
-    display: flex;
-    flex-direction: column;
-    padding: 5%;
-    align-items: center;
   }
  
