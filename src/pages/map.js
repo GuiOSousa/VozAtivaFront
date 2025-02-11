@@ -8,6 +8,7 @@ import MapPopup from "../components/CreateAlertPopUp";
 import api from "../axios/api";
 import getData from "../access/localData";
 import { isLoggedIn } from "../pages/loginScreen"; // Importe a flag global
+import NotLogedPopup from "../components/notLogedPopup";
 
 class MapComponent extends React.Component {
 	componentDidMount() {
@@ -38,14 +39,23 @@ class MapComponent extends React.Component {
 		});
 
 		const onMapClick = (e) => {
+			const container = document.createElement("div");
+			const { lat, lng } = e.latlng;
+
 			if (!isLoggedIn) {
+				createRoot(container).render(
+					<Router>
+						<NotLogedPopup popup={popup}/>
+					</Router>
+				);
+				popup.setLatLng(e.latlng).setContent(container).openOn(this.map);
 				return;
 			}
 
-			const { lat, lng } = e.latlng;
+			
 
 			// Criar um contêiner div para o React renderizar o componente
-			const container = document.createElement("div");
+			
 
 			// Renderizar o componente React no contêiner dentro de um Router
 			createRoot(container).render(

@@ -4,10 +4,11 @@ import React from 'react';
 const ReportView = ({ report }) => {
   return (
     <div className="report-view">
-      <h2>Detalhes da Denúncia</h2>
-      <p><strong>Título:</strong> {report.title}</p>
+      <h2>{report.title}</h2>
       <p><strong>Descrição:</strong> {report.description}</p>
-      <p><strong>Status Atual:</strong> {report.status}</p>
+      <p><strong>Data:</strong> {report.date}</p>
+      <p><strong>Status:</strong> {report.status}</p>
+      <p><strong>Id:</strong> {report.id}</p>
     </div>
   );
 };
