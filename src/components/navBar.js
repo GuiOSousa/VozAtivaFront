@@ -5,6 +5,8 @@ import { IoWarning } from "react-icons/io5";
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
 import { isLoggedIn } from "../pages/loginScreen"; // Importe a flag global
 import "./styles/NavBar.css";
+import { FaMapMarkedAlt } from "react-icons/fa";
+
 
 export const NavigationBar = () => {
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ export const NavigationBar = () => {
   return (
     <nav className="bottom-nav">
       <Link to="/" className="nav-item">
-        <FaHome size={24} />
+        <FaMapMarkedAlt size={24} />
       </Link>
       {/* <Link to="/alert" className="nav-item">
         <IoWarning size={24} />

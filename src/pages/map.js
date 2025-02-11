@@ -9,6 +9,7 @@ import api from "../axios/api";
 import getData from "../access/localData";
 import { isLoggedIn } from "../pages/loginScreen"; // Importe a flag global
 import NotLogedPopup from "../components/notLogedPopup";
+import AlertInfoPopup from "../components/alertInfoPopup";
 
 class MapComponent extends React.Component {
 	
@@ -94,7 +95,7 @@ class MapComponent extends React.Component {
 				fillColor: col,
 				color: col,
 			}).addTo(this.map);
-			mk.bindPopup(`<b>${a["title"]}</b><br>${a["description"]}`);
+			mk.bindPopup(AlertInfoPopup(a));
 		});
 
 		const pane = this.getPane();
