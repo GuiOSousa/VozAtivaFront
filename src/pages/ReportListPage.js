@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReportView from "../components/ReportView";
 import ReportStatusUpdate from "../components/ReportStatusUpdate";
-import api from "../axios/api"; // Sua instância do axios
+import api from "../axios/api";
 import "./styles/ReportListPage.css";
 import { userEmail } from "./loginScreen";
 import { useNavigate } from "react-router-dom";
@@ -9,8 +9,8 @@ import { useNavigate } from "react-router-dom";
 const ReportListPage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [alerts, setAlerts] = useState(null);
-  const [loading, setLoading] = useState(true); // Estado para indicar carregamento
+  const [alerts, setAlerts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const path = `/User/email/${userEmail}`;
 
   const getUser = async () => {
@@ -34,8 +34,39 @@ const ReportListPage = () => {
     }
   };
 
-  const updateStatus = async (id, status) => {
-    const path = `/Alert/${id}`
+  const updateStatus = async (id, newStatusValue) => {
+    try {
+      // Mapear o novo status para a string correspondente, se necessário
+      const statusMap = {
+        1: 'Aberto',
+        3: 'Finalizado',
+      };
+  
+      const newStatus = statusMap[newStatusValue] || 'Aberto';
+  
+      // Opcionalmente, exibir o status que será enviado
+      console.log('Atualizando status para:', newStatus);
+  
+      // Fazer a requisição PUT para '/Alert/{id}' com o novo status no corpo
+      const response = await api.put(`/Alert`, { status: newStatus });
+  
+      if (response.status === 200) {
+        // Atualize o alerta específico na lista de alertas
+        setAlerts((prevAlerts) =>
+          prevAlerts.map((alert) =>
+            alert.id === id ? { ...alert, status: newStatus } : alert
+          )
+        );
+      } else {
+        console.error(`Erro ao atualizar status: ${response.statusText}`);
+      }
+    } catch (error) {
+      if (error.response) {
+        console.error('Erro ao atualizar status:', error.response.data);
+      } else {
+        console.error('Erro ao atualizar status:', error.message);
+      }
+    }
   };
 
   useEffect(() => {
@@ -49,18 +80,21 @@ const ReportListPage = () => {
     if (user) {
       getAlerts(user.id);
     }
-  }, [user]); // Dispara quando `user` for atualizado
+  }, [user]);
 
   return (
     <div className="report-list-page">
       <h2>Suas Denúncias</h2>
-
       {loading ? (
         <p>Carregando...</p>
       ) : alerts && alerts.length > 0 ? (
         alerts.map((report) => (
           <div key={report.id} className="report-item">
-            <ReportView report={report} />
+            <h3>{report.title}</h3>
+            <p>Descrição: {report.description}</p>
+            <p>Data: {new Date(report.date).toLocaleString()}</p>
+            <p>Status: {report.status}</p> {/* Exibe 1 ou 2 diretamente */}
+            <p>Id: {report.id}</p>
             <ReportStatusUpdate
               currentStatus={report.status}
               onUpdateStatus={(newStatus) => updateStatus(report.id, newStatus)}
