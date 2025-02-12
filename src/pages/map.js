@@ -9,16 +9,16 @@ import api from "../axios/api";
 import getData from "../access/localData";
 import { isLoggedIn } from "../pages/loginScreen"; // Importe a flag global
 import NotLogedPopup from "../components/notLogedPopup";
+import AlertInfoPopup from "../components/alertInfoPopup";
 
 class MapComponent extends React.Component {
+	
 	componentDidMount() {
 		if (this.map) {
 			this.map.remove();
 		}
-
 		this.map = L.map("map").setView([-23.232896, -45.895818], 13);
 
-		// Adiciona os tiles do OpenStreetMap
 		L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 			maxZoom: 19,
 			attribution:
@@ -31,11 +31,10 @@ class MapComponent extends React.Component {
 		this.map.on("moveend", this.updateAlerts);
 		this.map.on("zoom", this.updateAlerts);
 
-		// Evento de clique no mapa
 		const popup = L.popup({
-			maxWidth: 250, // Define uma largura máxima para o popup
-			minWidth: 220, // Define uma largura mínima
-			keepInView: true, // Mantém o popup visível dentro da tela
+			maxWidth: 250,
+			minWidth: 220,
+			keepInView: true,
 		});
 
 		const onMapClick = (e) => {
@@ -51,13 +50,6 @@ class MapComponent extends React.Component {
 				popup.setLatLng(e.latlng).setContent(container).openOn(this.map);
 				return;
 			}
-
-			
-
-			// Criar um contêiner div para o React renderizar o componente
-			
-
-			// Renderizar o componente React no contêiner dentro de um Router
 			createRoot(container).render(
 				<Router>
 					<MapPopup lat={lat} lng={lng} popup={popup} />
@@ -70,6 +62,7 @@ class MapComponent extends React.Component {
 
 		// Adicionar o evento de clique ao mapa
 		this.map.on("click", onMapClick);
+		this.updateAlerts()
 
 		// Cleanup para evitar vazamentos de memória
 		return () => {
@@ -102,7 +95,7 @@ class MapComponent extends React.Component {
 				fillColor: col,
 				color: col,
 			}).addTo(this.map);
-			mk.bindPopup(`<b>${a["title"]}</b><br>${a["description"]}`);
+			mk.bindPopup(AlertInfoPopup(a));
 		});
 
 		const pane = this.getPane();
