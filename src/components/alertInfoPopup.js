@@ -6,28 +6,13 @@ import "./styles/CreateAlertPopUp.css";
 import { userEmail } from "../pages/loginScreen";
 
 const AlertInfoPopup = (a) => {
-    const getAlertType = () => {
-        let type
-        if (a["alertTypeId"] === 1) {
-            type = "Ambiental";
-        } else if (a["alertTypeId"] === 2) {
-            type = "Trânsito";
-        } else if (a["alertTypeId"] === 3) {
-            type = "Segurança";
-        } else {
-            type = "Outros";
-        }
-
-        return type
-    }
-
   return (`
     <div className="popup-container">
         <h2>${a.title}</h2>
-        <p><strong>Tipo:</strong> ${getAlertType()}</p>
+        <i>${a.description}</i>
+        <p><strong>Tipo:</strong> ${a.type}</p>
         <p><strong>Data:</strong> ${new Date(a.date).toLocaleString()}</p>
         <p><strong>Status:</strong> ${a.status === 1 ? "Aberto" : "Finalizado"}</p>
-        <i>${a.description}</i>
     </div>`
    
   );

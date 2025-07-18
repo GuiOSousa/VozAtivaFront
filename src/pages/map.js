@@ -81,21 +81,26 @@ class MapComponent extends React.Component {
 		alerts.forEach((a) => {
 			let col;
 
-			if (a["alertTypeId"] === 1) {
+			if (a["type"] === "Environment") {
 				col = "green";
-			} else if (a["alertTypeId"] === 2) {
+			} else if (a["type"] === "Traffic") {
 				col = "blue";
-			} else if (a["alertTypeId"] === 3) {
+			} else if (a["type"] === "Security") {
 				col = "red";
 			} else {
 				col = "yellow";
 			}
 
-			let mk = L.circleMarker([a["latitude"], a["longitude"]], {
-				fillColor: col,
-				color: col,
+			if (!a["coords"] || !a["coords"]["lat"] || !a["coords"]["long"]) {
+				return
+			}
+
+			let mk = L.circleMarker([a["coords"]["lat"], a["coords"]["long"]], {
+			fillColor: col,
+			color: col,
 			}).addTo(this.map);
 			mk.bindPopup(AlertInfoPopup(a));
+			
 		});
 
 		const pane = this.getPane();
