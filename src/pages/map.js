@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import getAlerts from "../access/alerts";
+import getAlerts, { getMapFilter } from "../access/alerts";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom"; // Importe o Router
 import MapPopup from "../components/CreateAlertPopUp";
@@ -18,6 +18,8 @@ class MapComponent extends React.Component {
 			this.map.remove();
 		}
 		this.map = L.map("map").setView([-23.232896, -45.895818], 13);
+
+		this.alertLayer = L.layerGroup().addTo(this.map);
 
 		L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 			maxZoom: 19,
@@ -74,7 +76,11 @@ class MapComponent extends React.Component {
 	}
 
 	async updateAlerts() {
-		const alerts = await getAlerts(); // FUNÇÃO LOCAL
+		this.alertLayer.clearLayers()
+
+		const alerts = await getAlerts(getMapFilter()); // FUNÇÃO LOCAL
+	
+		console.log(["AAAAAAAAA", getMapFilter()])
 
 		//console.log(await api.get('/Alert'))
 
@@ -98,7 +104,7 @@ class MapComponent extends React.Component {
 			let mk = L.circleMarker([a["coords"]["lat"], a["coords"]["long"]], {
 			fillColor: col,
 			color: col,
-			}).addTo(this.map);
+			}).addTo(this.alertLayer);
 			mk.bindPopup(AlertInfoPopup(a));
 			
 		});

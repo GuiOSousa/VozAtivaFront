@@ -24,3 +24,8 @@
 .map {
   z-index: 0;
 }
+
+.HomeDiv {
+  display: flex;
+  flex-direction: row;
+}
