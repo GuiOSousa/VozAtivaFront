@@ -22,40 +22,39 @@ const MapPopup = ({ lat, lng, popup }) => {
     }
   };
 
-  const getAlertType = () => {
-    if (category === 'ambiental')
-      return 1;
-
-    if (category === 'transito')
-      return 2;
-
-    if (category === 'seguranca')
-      return 3;
-
-    return 4;
-  };
-
   const handleSubmit = async () => {
     //if (!isLoggedIn) {
     //  return null;
     //}
 
+    let translatedType = ""
+
+        if (category === "ambiental") {
+          translatedType = "Environment"
+        } else if (category === "seguranca") {
+          translatedType = "Security"
+        } else if (category === "transito") {
+          translatedType = "Traffic"
+        } else {
+          translatedType = "Others"
+        }
+
     const data = {
       title,
       description,
       date: new Date().toISOString(),
-      userId: user.id,
-      publicAgentId: 1,
-      alertTypeId: getAlertType(),
-      latitude: lat,
-      longitude: lng,
-      status: 1
+      type: translatedType,
+      coords: {
+        lat: lat,
+        long: lng,
+      },
+      status: "Open"
     };
   
     console.log("Enviando dados:", data);
   
     try {
-      const response = await api.post('/Alert', data, {
+      const response = await api.post('/alert', data, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -82,11 +81,7 @@ const MapPopup = ({ lat, lng, popup }) => {
         <strong>Dados do Alerta:</strong>
       </p>
 
-      {!isLoggedIn ? (
-        <button onClick={() => navigate('/login')}>
-          Faça login para enviar um alerta
-        </button>
-      ) : (
+
         <>
           <input
             type="text"
@@ -115,7 +110,6 @@ const MapPopup = ({ lat, lng, popup }) => {
             Enviar
           </button>
         </>
-      )}
     </div>
   );
 };

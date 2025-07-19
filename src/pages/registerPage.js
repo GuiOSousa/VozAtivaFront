@@ -75,21 +75,21 @@ const RegisterScreen = () => {
     console.log("Enviando dados:", data);
 
     try {
-      const response = await api.post("/User", data, {
+      const response = await api.post("/user", data, {
         headers: {
           "Content-Type": "application/json",
         },
       });
       
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         const reg = await api.post("/api/Auth/register", regData, {
           headers: {
             "Content-Type": "application/json",
           },
         });
 
-        if (reg.status !== 200) {
+        if (reg.status !== 201) {
           alert("Erro na criação do Registro")
           return
         }

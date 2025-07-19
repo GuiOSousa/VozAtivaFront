@@ -12,7 +12,6 @@ import NotLogedPopup from "../components/notLogedPopup";
 import AlertInfoPopup from "../components/alertInfoPopup";
 
 class MapComponent extends React.Component {
-	
 	componentDidMount() {
 		if (this.map) {
 			this.map.remove();
@@ -40,10 +39,12 @@ class MapComponent extends React.Component {
 		});
 
 		const onMapClick = (e) => {
+
+
 			const container = document.createElement("div");
 			const { lat, lng } = e.latlng;
-
-			if (!isLoggedIn) {
+			
+			/*if (!isLoggedIn) {
 				createRoot(container).render(
 					<Router>
 						<NotLogedPopup popup={popup}/>
@@ -51,7 +52,7 @@ class MapComponent extends React.Component {
 				);
 				popup.setLatLng(e.latlng).setContent(container).openOn(this.map);
 				return;
-			}
+			}*/
 			createRoot(container).render(
 				<Router>
 					<MapPopup lat={lat} lng={lng} popup={popup} />
@@ -87,6 +88,10 @@ class MapComponent extends React.Component {
 		alerts.forEach((a) => {
 			let col;
 
+			if (!a["coords"] || !a["coords"]["lat"] || !a["coords"]["long"]) {
+				return
+			}
+
 			if (a["type"] === "Environment") {
 				col = "green";
 			} else if (a["type"] === "Traffic") {
@@ -95,10 +100,6 @@ class MapComponent extends React.Component {
 				col = "red";
 			} else {
 				col = "yellow";
-			}
-
-			if (!a["coords"] || !a["coords"]["lat"] || !a["coords"]["long"]) {
-				return
 			}
 
 			let mk = L.circleMarker([a["coords"]["lat"], a["coords"]["long"]], {

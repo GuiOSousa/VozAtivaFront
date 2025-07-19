@@ -3,6 +3,7 @@ import './styles/Filters.css';
 import { MapFilter, setMapFilter } from '../access/alerts';
 
 
+
 export default function DataFilter() {
     const [data, setData] = useState({
         title: '',
@@ -24,17 +25,41 @@ const handleChange = (e) => {
     };
 
     const handleCheckboxChange = (name, value) => {
-        setData(prev => ({ ...prev, [name]: value }));
-    };
+	setData(prev => ({
+		...prev,
+		[name]: prev[name] === value ? "" : value // se já está marcado, desmarca
+	}));
+};
 
     const getFilteredData = () => {
+        let translatedType = ""
+
+        if (data.type === "Ambiental") {
+           translatedType = "Environment"
+        } else if (data.type === "Segurança") {
+            translatedType = "Security"
+        } else if (data.type === "Trânsito") {
+            translatedType = "Traffic"
+        } else if (data.type === "Outros") {
+            translatedType = "Others"
+        }
+
+        let translatedStatus = ""
+
+        if (data.status === "Aberto") {
+            translatedStatus = "Open"
+        } else if (data.status === "Fechado") {
+            translatedStatus = "Closed"
+        }
+
+
         setMapFilter({
             title: data.title,
             distance: data.distance,
-            status: data.status,
+            status: translatedStatus,
             lat: data.lat,
             long: data.long,
-            type: data.type,
+            type: translatedType,
             date: data.date
         })
     };
@@ -52,7 +77,7 @@ const handleChange = (e) => {
                 <div style={{ marginBottom: '15px' }}>
                 {['Ambiental', 'Trânsito', 'Segurança', 'Outros'].map(tipo => (
                     <label key={tipo}>
-                        <input type="radio" name="status" value={tipo} checked={data.type === tipo} onChange={() => {handleCheckboxChange('type', tipo)}}/> {tipo}
+                        <input type="checkbox" name="status" value={tipo} checked={data.type === tipo} onChange={() => {handleCheckboxChange('type', tipo)}}/> {tipo}
                     </label>
                 ))}
             </div>
@@ -60,9 +85,9 @@ const handleChange = (e) => {
             <div className='TextField'>
                 <p>Status: </p>
                 <div style={{ marginBottom: '15px' }}>
-                {['Aberto', 'Fechado'].map(tipo => (
-                    <label key={tipo}>
-                        <input type="radio" name="type" value={tipo} checked={data.type === tipo} onChange={() => {handleCheckboxChange('type', tipo)}}/> {tipo}
+                {['Aberto', 'Fechado'].map(status => (
+                    <label key={status}>
+                        <input type="checkbox" name="status" value={status} checked={data.status === status} onChange={() => {handleCheckboxChange('status', status)}}/> {status}
                     </label>
                 ))}
             </div>
