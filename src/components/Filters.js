@@ -8,20 +8,13 @@ export default function DataFilter() {
     const [data, setData] = useState({
         title: '',
         status: '',
-        lat: '',
-        long: '',
-        distance: '',
         type: '',
         date: ''
     });
 
 const handleChange = (e) => {
         const { name, value } = e.target;
-        if (name === 'lat' || name === 'long') {
-            setData(prev => ({ ...prev, [name]: value }));
-        } else {
-            setData(prev => ({ ...prev, [name]: value }));
-        }
+        setData(prev => ({ ...prev, [name]: value }));
     };
 
     const handleCheckboxChange = (name, value) => {
@@ -57,8 +50,6 @@ const handleChange = (e) => {
             title: data.title,
             distance: data.distance,
             status: translatedStatus,
-            lat: data.lat,
-            long: data.long,
             type: translatedType,
             date: data.date
         })
@@ -91,18 +82,6 @@ const handleChange = (e) => {
                     </label>
                 ))}
             </div>
-            </div>
-            <div className='TextField'>
-                <p>Latitude: </p>
-                <input type={'number'} name={"lat"} value={undefined} onChange={handleChange}/>
-            </div>
-            <div className='TextField'>
-                <p>Longitude: </p>
-                <input type={'number'} name={"long"} value={undefined} onChange={handleChange}/>
-            </div>
-            <div className='TextField'>
-                <p>Distância: </p>
-                <input type={'number'} name={"distance"} value={undefined} onChange={handleChange}/>
             </div>
             <div className='TextField'>
                 <p>Data: </p>
