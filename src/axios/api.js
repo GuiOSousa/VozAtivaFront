@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = 'http://localhost:3001';
+const baseUrl = 'https://api-mongo-tlli.onrender.com/';
 
 const api = axios.create({
 	baseURL: baseUrl,
