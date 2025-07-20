@@ -2,6 +2,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-left: 12px;
+    padding-right: 12px;
+    width: 340px;
+    height: fit-content;
+    position: inherit;
 }
 
 .Filters h2 {
@@ -12,17 +17,39 @@
 .Filters p {
     padding: 0;
     margin: 0;
+    font-weight: bold;
 }
 
 .TextField {
     display: flex;
+    margin-bottom: 20px;
+    width: 100%;
+    gap: 8px
 }
 
 .FilterButton {
     background-color: var(--primary-color);
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 25px; 
-    padding-right: 25px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 32px; 
+    padding-right: 32px;
     margin-top: 40px;
+    color: #FFFFFF;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    border: none;
+}
+
+.TextInput {
+    width: 100%;
+}
+
+.CheckboxGrid {
+    display: grid;
+    columns: 2;
+}
+
+input {
+    border-radius: 6px;
+    border: none;
 }

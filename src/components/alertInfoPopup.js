@@ -12,7 +12,8 @@ const AlertInfoPopup = (a) => {
         <i>${a.description}</i>
         <p><strong>Tipo:</strong> ${a.type}</p>
         <p><strong>Data:</strong> ${new Date(a.date).toLocaleString()}</p>
-        <p><strong>Status:</strong> ${a.status === 1 ? "Aberto" : "Finalizado"}</p>
+        <p><strong>Status:</strong> ${a.status === "Open" ? "Aberto" : "Fechado"}</p>
+        ${a.location ? `<p><strong>Local:</strong> ${a.location.city}, ${a.location.state}, ${a.location.country}</p>` : ""}
     </div>`
    
   );

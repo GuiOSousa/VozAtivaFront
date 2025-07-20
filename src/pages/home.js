@@ -12,8 +12,8 @@ export const HomePage = () => {
         {/* <NavigationBar /> */}
 
         <div className="HomeDiv">
-          <MapComponent />
           <DataFilter/>
+          <MapComponent />
         </div>
         {/* <AddButton/> */}
       </div>
